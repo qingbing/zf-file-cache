@@ -153,7 +153,15 @@ class FileCache extends ACache
         if (file_put_contents($file, $value, LOCK_EX)) {
             $ttl = $ttl + time();
             @chmod($file, 0777);
-            return @touch($file, $ttl);
+            if (-1 === $ttl) {
+                return true;
+            }
+            if ($ttl > 0) {
+                return @touch($file, $ttl);
+            }
+            if (file_exists($file)) {
+                return File::unlink($file);
+            }
         }
         return false;
     }
