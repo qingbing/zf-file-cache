@@ -147,7 +147,7 @@ class FileCache extends ACache
      *
      * @return bool
      */
-    protected function setValue(string $id, string $value, $ttl): bool
+    protected function setValue(string $id, $value, $ttl): bool
     {
         $file = $this->getFile($id);
         if (file_put_contents($file, $value, LOCK_EX)) {
